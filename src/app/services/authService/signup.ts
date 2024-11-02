@@ -1,4 +1,3 @@
-import { sleep } from "../../utils/sleep";
 import { httpClient } from "../httpClient";
 
 export interface SignupṔarams {
@@ -12,8 +11,6 @@ interface SignupResponse {
 }
 
 export async function signup(params: SignupṔarams) {
-  await sleep();
-
   const { data } = await httpClient.post<SignupResponse>('/auth/signup', params);
 
   return data;
