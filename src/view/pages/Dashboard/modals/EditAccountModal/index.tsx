@@ -5,7 +5,9 @@ import { Input } from "../../../../components/Input";
 import { InputCurrency } from "../../../../components/InputCurrency";
 import { Modal } from "../../../../components/Modal";
 import { Select } from "../../../../components/Select";
-import { useNewAccountModalController } from "./useNewAccountModalController";
+import { useEditAccountModalController } from "./useEditAccountModalController";
+import { TrashIcon } from "../../../../components/icons/TrashIcon";
+import { ConfirmDeleteModal } from "../../../../components/ConfirmDeleteModal";
 
 export function EditAccountModal() {
   const {
@@ -16,13 +18,25 @@ export function EditAccountModal() {
     register,
     control,
     isLoading,
-  } = useNewAccountModalController();
+    isDeleteModalOpen,
+    handleOpenDeleteModal,
+    handleCloseDeleteModal,
+  } = useEditAccountModalController();
+
+  if (isDeleteModalOpen) {
+    return <ConfirmDeleteModal onClose={handleCloseDeleteModal} />
+  }
 
   return (
     <Modal
       title="Editar Conta"
       open={isEditAccountModalOpen}
       onClose={closeEditAccountModal}
+      rightAction={(
+        <button onClick={handleOpenDeleteModal}>
+          <TrashIcon className="w-6 h-6 text-red-900" />
+        </button>
+      )}
     >
       <form onSubmit={handleSubmit}>
         <div>
@@ -97,7 +111,7 @@ export function EditAccountModal() {
         </div>
 
         <Button type="submit" className="w-full mt-6" isLoading={isLoading}>
-          Criar
+          Salvar
         </Button>
       </form>
     </Modal>

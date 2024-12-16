@@ -17,7 +17,9 @@ export function Router() {
         </Route>
 
         <Route element={<AuthGuard isPrivate />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={
+            <Dashboard />
+          } />
         </Route>
       </Routes>
     </BrowserRouter>
