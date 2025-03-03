@@ -4,9 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { usersService } from "../services/usersService";
 import toast from "react-hot-toast";
 import { LauchScreen } from "../../view/components/LauchScreen";
+import { User } from "../entities/User";
 
 export interface AuthContextValue {
   signedIn: boolean;
+  user: User | undefined;
   signin(accessToken: string): void;
   signout(): void;
 }
@@ -19,7 +21,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return !!storageAccessToken;
   });
 
-  const { isError, isFetching, isSuccess } = useQuery({
+  const { isError, isFetching, isSuccess, data } = useQuery({
     queryKey: ["users", "me"],
     queryFn: () => usersService.me(),
     enabled: signedIn,
@@ -46,6 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   return (
     <AuthContext.Provider value={{
       signedIn: isSuccess && signedIn,
+      user: data,
       signin,
       signout
     }}>
